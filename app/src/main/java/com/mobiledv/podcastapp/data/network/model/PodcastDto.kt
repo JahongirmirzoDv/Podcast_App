@@ -1,5 +1,6 @@
 package com.mobiledv.podcastapp.data.network.model
 
+import com.fabirt.podcastapp.domain.model.Podcast
 import com.google.gson.annotations.SerializedName
 
 data class PodcastDto(
@@ -13,7 +14,7 @@ data class PodcastDto(
     @SerializedName("publisher_original")
     val publisherOriginal: String
 ){
-    fun asDomainModel() = PodcastDto(
+    fun asDomainModel() = Podcast(
         id,
         image,
         thumbnail,

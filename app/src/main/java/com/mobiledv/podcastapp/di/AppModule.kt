@@ -1,11 +1,18 @@
 package com.mobiledv.podcastapp.di
 
+import android.content.Context
 import com.mobiledv.podcastapp.BuildConfig
+import com.mobiledv.podcastapp.data.datastore.PodcastDataStore
+import com.mobiledv.podcastapp.data.exoplayer.PodcastMediaSource
 import com.mobiledv.podcastapp.data.network.constant.ListenNotesAPI
 import com.mobiledv.podcastapp.data.network.service.PodcastService
+import com.mobiledv.podcastapp.data.service.MediaPlayerServiceConnection
+import com.mobiledv.podcastapp.domain.repository.PodcastRepository
+import com.mobiledv.podcastapp.domain.repository.PodcastRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -46,5 +53,20 @@ object AppModule {
             .create(PodcastService::class.java)
     }
 
+    @Provides
+    fun providePodcastDataStore(
+        @ApplicationContext context: Context
+    ): PodcastDataStore = PodcastDataStore(context)
 
+    @Provides
+    fun providePodcastRepository(
+        service: PodcastService,
+        dataStore: PodcastDataStore
+    ): PodcastRepository = PodcastRepositoryImpl(service, dataStore)
+
+    @Provides
+    fun provideMediaPlayerServiceConnection(
+        @ApplicationContext context: Context,
+        mediaSource: PodcastMediaSource
+    ): MediaPlayerServiceConnection = MediaPlayerServiceConnection(context, mediaSource)
 }

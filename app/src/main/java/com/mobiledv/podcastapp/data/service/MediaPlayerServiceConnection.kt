@@ -10,6 +10,7 @@ import androidx.compose.runtime.mutableStateOf
 import com.mobiledv.podcastapp.constant.K
 import com.mobiledv.podcastapp.data.exoplayer.PodcastMediaSource
 import com.mobiledv.podcastapp.domain.model.Episode
+import com.mobiledv.podcastapp.util.currentPosition
 
 class MediaPlayerServiceConnection(
     context: Context,
@@ -43,13 +44,13 @@ class MediaPlayerServiceConnection(
     }
 
     fun fastForward(seconds: Int = 10) {
-        playbackState.value?.state?.let { currentPosition ->
+        playbackState.value?.currentPosition?.let { currentPosition ->
             transportControls.seekTo((currentPosition + seconds * 1000).toLong())
         }
     }
 
     fun rewind(seconds: Int = 10) {
-        playbackState.value?.state?.let { currentPosition ->
+        playbackState.value?.currentPosition?.let { currentPosition ->
             transportControls.seekTo((currentPosition - seconds * 1000).toLong())
         }
     }

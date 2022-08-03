@@ -1,6 +1,7 @@
 package com.mobiledv.podcastapp.data.network.model
 
 import com.google.gson.annotations.SerializedName
+import com.mobiledv.podcastapp.domain.model.Episode
 
 data class EpisodeDto(
     val id: String,
@@ -22,7 +23,7 @@ data class EpisodeDto(
     @SerializedName("description_original")
     val descriptionOriginal: String,
 ){
-    fun asDomainModel() = EpisodeDto(
+    fun asDomainModel() = Episode(
         id,
         link,
         audio,
