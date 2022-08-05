@@ -1,6 +1,7 @@
 package com.mobiledv.podcastapp.di
 
 import android.content.Context
+import android.os.Looper
 import com.mobiledv.podcastapp.BuildConfig
 import com.mobiledv.podcastapp.data.datastore.PodcastDataStore
 import com.mobiledv.podcastapp.data.exoplayer.PodcastMediaSource
@@ -68,5 +69,10 @@ object AppModule {
     fun provideMediaPlayerServiceConnection(
         @ApplicationContext context: Context,
         mediaSource: PodcastMediaSource
-    ): MediaPlayerServiceConnection = MediaPlayerServiceConnection(context, mediaSource)
+    ): MediaPlayerServiceConnection {
+        require(Looper.myLooper() != Looper.getMainLooper()){
+            "Main thread"
+        }
+        return MediaPlayerServiceConnection(context, mediaSource)
+    }
 }

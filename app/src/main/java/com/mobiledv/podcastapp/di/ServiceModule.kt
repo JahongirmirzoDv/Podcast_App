@@ -1,6 +1,7 @@
 package com.mobiledv.podcastapp.di
 
 import android.content.Context
+import android.os.Looper
 import com.google.android.exoplayer2.C
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.audio.AudioAttributes
@@ -55,6 +56,9 @@ object ServiceModule {
         @ApplicationContext context: Context,
         datasourceFactory: DefaultDataSourceFactory
     ): CacheDataSource.Factory {
+        require(Looper.myLooper() != Looper.getMainLooper()){
+            "Main thread"
+        }
         val cacheDir = File(context.cacheDir, "media")
         val databaseProvider = ExoDatabaseProvider(context)
         val cache = SimpleCache(cacheDir, NoOpCacheEvictor(), databaseProvider)
